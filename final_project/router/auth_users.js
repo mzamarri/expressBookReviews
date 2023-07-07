@@ -55,7 +55,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   const username = req.body.username;
   let ISBN = parseInt(req.params.isbn);
   let book_review = req.query.book_review;
-  books[ISBN]["review"][username] = book_review;
+  books[ISBN]["reviews"][username] = book_review;
 });
 
 module.exports.authenticated = regd_users;
