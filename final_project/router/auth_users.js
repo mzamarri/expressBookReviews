@@ -39,7 +39,7 @@ regd_users.post("/login", (req,res) => {
     if (authenticatedUser(username,password)) {
       let accessToken = jwt.sign({
         data: password
-      }, 'access', { expiresIn: 30 });
+      }, 'access', { expiresIn: 60 * 60 });
   
       req.session.authorization = {
         accessToken,username
@@ -53,10 +53,20 @@ regd_users.post("/login", (req,res) => {
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
   const username = req.body.username;
-  let ISBN = parseInt(req.params.isbn);
+  const ISBN = parseInt(req.params.isbn);
   let book_review = req.query.book_review;
   books[ISBN]["reviews"][username] = book_review;
+  console.log(books[ISBN]["reviews"]);
+  res.send(`review from ${username} successfully added to ISBN=${ISBN}. \n\n` + JSON.stringify(books, null, 4));
 });
+
+// Delete book review
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+    const username = req.body.username;
+    const ISBN = req.params.isbn;
+    delete books[ISBN]["reviews"][username];
+    res.send(`Review from ${username} successfully deleted on ISBN=${ISBN}. \n\n` + JSON.stringify(books, null, 4))
+})
 
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
