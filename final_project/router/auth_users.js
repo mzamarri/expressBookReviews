@@ -53,8 +53,8 @@ regd_users.post("/login", (req,res) => {
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
   const username = req.body.username;
-  ISBN = parseInt(req.params.isbn);
-  book_review = req.query.book_review;
+  let ISBN = parseInt(req.params.isbn);
+  let book_review = req.query.book_review;
   books[ISBN]["review"][username] = book_review;
 });
 
