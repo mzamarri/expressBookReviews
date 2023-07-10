@@ -20,7 +20,11 @@ public_users.post("/register", (req,res) => {
 });
 
 // Get the book list available in the shop
-public_users.get('/async-get-all-books',function (req, res) {
+public_users.get('/', function (req, res) {
+    res.send(JSON.stringify(books, null, 4))
+})
+
+public_users.get('/async-get-all-books', function (req, res) {
 
   const get_books = new Promise((resolve, reject) => {
       resolve(res.send(JSON.stringify(books, null, 4)))
@@ -29,6 +33,12 @@ public_users.get('/async-get-all-books',function (req, res) {
 });
 
 // Get book details based on ISBN
+public_users.get('isbn/:isbn', function (req, res) {
+    const ISBN = req.params.isbn;
+    let book =  books[ISBN];
+    res.send(JSON.stringify(book, null, 4))
+});
+
 public_users.get('/async-get-by-isbn/:isbn',function (req, res) {
   const book_details = new Promise((resolve, reject) => {
     const ISBN = req.params.isbn;
